@@ -2,71 +2,126 @@
 session_start();
 include 'config/koneksi.php';
 
-if (!isset($_SESSION['status_login'])) { header("Location: login.php"); exit; }
+if (!isset($_SESSION['status_login'])) {
+    header("Location: login.php");
+    exit;
+}
 
 if (isset($_POST['simpan'])) {
+    $id_user = $_SESSION['id_user'];
     
-    $user_id = $_SESSION['id_user'];
-    $telepon = mysqli_real_escape_string($conn, $_POST['no_telepon']);
-    $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
-    $sekolah = mysqli_real_escape_string($conn, $_POST['asal_sekolah']);
-    $jurusan = mysqli_real_escape_string($conn, $_POST['jurusan']);
+    // 1. Ambil Data Form
+    $alamat          = mysqli_real_escape_string($conn, $_POST['alamat']);
+    $no_telepon      = mysqli_real_escape_string($conn, $_POST['no_telepon']);
+    $jenis_kelamin   = mysqli_real_escape_string($conn, $_POST['jenis_kelamin']);
+    $agama           = mysqli_real_escape_string($conn, $_POST['agama']);
+    $asal_sekolah    = mysqli_real_escape_string($conn, $_POST['asal_sekolah']);
+    $jurusan_pilihan = mysqli_real_escape_string($conn, $_POST['jurusan_pilihan']);
+    $nilai_rata_rata = mysqli_real_escape_string($conn, $_POST['nilai_rata_rata']);
 
-    // CEK DATA LAMA
-    $cek = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE user_id='$user_id'");
-    $data_lama = mysqli_fetch_assoc($cek);
-    $sudah_ada = mysqli_num_rows($cek) > 0;
+    // Cek apakah data user ini sudah ada di tabel pendaftaran?
+    $cek = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE user_id = '$id_user'");
+    $ada = mysqli_num_rows($cek) > 0;
 
-    // LOGIKA UPLOAD FOTO
-    $namaFileSimpan = $sudah_ada ? $data_lama['foto_bukti_bayar'] : ''; // Default pakai foto lama
+    // --- LOGIKA UPLOAD FOTO & BUKTI ---
+    $folder = "uploads/";
     
-    // Cek apakah user upload foto BARU?
-    if ($_FILES['foto']['error'] !== 4) { 
-        // Ada file baru yang diupload
-        $foto_nama = $_FILES['foto']['name'];
-        $foto_tmp = $_FILES['foto']['tmp_name'];
-        $foto_size = $_FILES['foto']['size'];
+    // Siapkan variabel update/insert string
+    // Kita set default file query kosong, nanti diisi kalau user upload file baru
+    $query_file_foto = "";
+    $query_file_bukti = "";
 
-        // Validasi simpel
-        $ext = strtolower(pathinfo($foto_nama, PATHINFO_EXTENSION));
-        if (!in_array($ext, ['jpg', 'jpeg', 'png']) || $foto_size > 2000000) {
-             echo "<script>alert('Format/Ukuran Salah!'); window.location='formulir.php';</script>"; exit;
-        }
-
-        $namaFileSimpan = uniqid() . '.' . $ext;
-        move_uploaded_file($foto_tmp, 'uploads/' . $namaFileSimpan);
-        
-        // Hapus foto lama biar server bersih
-        if($sudah_ada && file_exists('uploads/'.$data_lama['foto_bukti_bayar'])) {
-            unlink('uploads/'.$data_lama['foto_bukti_bayar']);
-        }
+    // A. Handle Pass Foto
+    if (!empty($_FILES['pass_foto']['name'])) {
+        $foto_name = time() . '_FOTO_' . $_FILES['pass_foto']['name'];
+        move_uploaded_file($_FILES['pass_foto']['tmp_name'], $folder . $foto_name);
+        $query_file_foto = ", pass_foto = '$foto_name'"; 
     }
 
-    if ($sudah_ada) {
-        // --- PROSES UPDATE ---
+    // B. Handle Bukti Bayar
+    if (!empty($_FILES['file_bukti']['name'])) {
+        $bukti_name = time() . '_BUKTI_' . $_FILES['file_bukti']['name'];
+        move_uploaded_file($_FILES['file_bukti']['tmp_name'], $folder . $bukti_name);
+        $query_file_bukti = ", file_bukti = '$bukti_name'";
+    }
+
+    if ($ada) {
+        // --- UPDATE DATA ---
+        // Perhatikan tanda koma dan kutip
         $query = "UPDATE pendaftaran SET 
-                  no_telepon='$telepon', alamat='$alamat', asal_sekolah='$sekolah', 
-                  jurusan_pilihan='$jurusan', foto_bukti_bayar='$namaFileSimpan' 
-                  WHERE user_id='$user_id'";
-        $pesan = "Data berhasil diperbarui!";
+                  alamat = '$alamat',
+                  no_telepon = '$no_telepon',
+                  jenis_kelamin = '$jenis_kelamin',
+                  agama = '$agama',
+                  asal_sekolah = '$asal_sekolah',
+                  jurusan_pilihan = '$jurusan_pilihan',
+                  nilai_rata_rata = '$nilai_rata_rata'
+                  $query_file_foto
+                  $query_file_bukti
+                  WHERE user_id = '$id_user'";
     } else {
-        // --- PROSES INSERT ---
-        // Kalau insert tapi ga upload foto (error 4), tolak
-        if($_FILES['foto']['error'] === 4) {
-             echo "<script>alert('Wajib upload foto untuk pendaftaran baru!'); window.location='formulir.php';</script>"; exit;
-        }
-        $query = "INSERT INTO pendaftaran (user_id, alamat, no_telepon, asal_sekolah, jurusan_pilihan, foto_bukti_bayar, status_pendaftaran)
-                  VALUES ('$user_id', '$alamat', '$telepon', '$sekolah', '$jurusan', '$namaFileSimpan', 'pending')";
-        $pesan = "Pendaftaran berhasil disimpan!";
+        // --- INSERT DATA BARU ---
+        // Jika insert, kita butuh nama file (kalau kosong kasi NULL atau string kosong)
+        $foto_val  = !empty($foto_name) ? $foto_name : '';
+        $bukti_val = !empty($bukti_name) ? $bukti_name : '';
+
+        $query = "INSERT INTO pendaftaran 
+                  (user_id, alamat, no_telepon, jenis_kelamin, agama, asal_sekolah, jurusan_pilihan, nilai_rata_rata, pass_foto, file_bukti, status_pendaftaran)
+                  VALUES 
+                  ('$id_user', '$alamat', '$no_telepon', '$jenis_kelamin', '$agama', '$asal_sekolah', '$jurusan_pilihan', '$nilai_rata_rata', '$foto_val', '$bukti_val', 'pending')";
     }
 
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('$pesan'); window.location.href='dashboard.php';</script>";
+        echo "<script>alert('Data berhasil disimpan!'); window.location='dashboard.php';</script>";
     } else {
         echo "Error: " . mysqli_error($conn);
     }
-
-} else {
-    header("Location: formulir.php");
 }
+?>
+
+<?php
+session_start();
+include 'config/koneksi.php';
+
+// Cek Login (Sama seperti sebelumnya)
+if (!isset($_SESSION['status_login'])) { header("Location: login.php"); exit; }
+$id_user = $_SESSION['id_user'];
+
+// Ambil Data
+$data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM pendaftaran WHERE user_id = '$id_user'"));
+if (!$data) { echo "<script>window.location='formulir.php';</script>"; exit; }
+
+// --- FUNGSI UPLOAD (Logic Tetap Sama) ---
+function prosesUpload($inputName, $columnName, $conn, $id_user) {
+    global $data;
+    if (isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] == 0) {
+        $file_name = $_FILES[$inputName]['name'];
+        $file_tmp = $_FILES[$inputName]['tmp_name'];
+        $file_size = $_FILES[$inputName]['size'];
+        
+        $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if (!in_array($ext, ['pdf','jpg','jpeg','png'])) {
+            echo "<script>alert('Format Salah! Hanya PDF/JPG/PNG.');</script>"; return false;
+        }
+        if ($file_size > 5000000) {
+            echo "<script>alert('File terlalu besar (Max 5MB).');</script>"; return false;
+        }
+
+        $newName = strtoupper($inputName) . "_" . uniqid() . "." . $ext;
+        if(move_uploaded_file($file_tmp, 'uploads/' . $newName)) {
+            if(!empty($data[$columnName]) && file_exists('uploads/'.$data[$columnName])){
+                unlink('uploads/'.$data[$columnName]);
+            }
+            mysqli_query($conn, "UPDATE pendaftaran SET $columnName = '$newName' WHERE user_id = '$id_user'");
+            return true;
+        }
+    }
+    return false;
+}
+
+// Logic Handler
+if (isset($_POST['upload_ijazah'])) { if(prosesUpload('ijazah', 'file_ijazah', $conn, $id_user)) header("Refresh:0"); }
+if (isset($_POST['upload_kk'])) { if(prosesUpload('kk', 'file_kk', $conn, $id_user)) header("Refresh:0"); }
+if (isset($_POST['upload_rapor'])) { if(prosesUpload('rapor', 'file_rapor', $conn, $id_user)) header("Refresh:0"); }
+
 ?>
