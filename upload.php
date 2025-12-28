@@ -1,3 +1,90 @@
+<?php
+session_start();
+include 'config/koneksi.php'; // Pastikan path koneksi benar
+
+// 1. Cek Login
+if (!isset($_SESSION['status_login'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$id_user = $_SESSION['id_user'];
+
+// 2. FUNGSI UNTUK MENANGANI UPLOAD (Biar kodenya rapi)
+function handleUpload($input_name, $column_name, $id_user, $conn) {
+    if (isset($_FILES[$input_name]) && $_FILES[$input_name]['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'pdf'];
+        $filename = $_FILES[$input_name]['name'];
+        $filetmp = $_FILES[$input_name]['tmp_name'];
+        $filesize = $_FILES[$input_name]['size'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        // Validasi Ekstensi
+        if (!in_array($ext, $allowed)) {
+            echo "<script>alert('Format file tidak sihir! Harap upload JPG, PNG, atau PDF.');</script>";
+            return;
+        }
+
+        // Validasi Ukuran (Max 2MB)
+        if ($filesize > 2097152) {
+            echo "<script>alert('File terlalu berat! Maksimal 2MB.');</script>";
+            return;
+        }
+
+        // Rename file biar unik (IDUSER_NAMAKOLOM_TIMESTAMP.ext)
+        $new_name = $id_user . '_' . $column_name . '_' . time() . '.' . $ext;
+        $destination = 'uploads/' . $new_name;
+
+        // Cek folder uploads ada atau tidak
+        if (!is_dir('uploads')) {
+            mkdir('uploads', 0777, true);
+        }
+
+        // Pindahkan file
+        if (move_uploaded_file($filetmp, $destination)) {
+            // Update Database
+            // Cek dulu apakah data pendaftaran sudah ada
+            $cek = mysqli_query($conn, "SELECT id FROM pendaftaran WHERE user_id = '$id_user'");
+            
+            if (mysqli_num_rows($cek) > 0) {
+                $query = "UPDATE pendaftaran SET $column_name = '$new_name' WHERE user_id = '$id_user'";
+            } else {
+                // Jika belum ada row pendaftaran, buat baru (biasanya jarang terjadi jika alur benar)
+                $query = "INSERT INTO pendaftaran (user_id, $column_name) VALUES ('$id_user', '$new_name')";
+            }
+
+            if (mysqli_query($conn, $query)) {
+                echo "<script>alert('Berkas berhasil dikirim via Burung Hantu!'); window.location='upload.php';</script>";
+            } else {
+                echo "<script>alert('Gagal mencatat di database sihir.');</script>";
+            }
+        } else {
+            echo "<script>alert('Gagal mengupload file ke server.');</script>";
+        }
+    }
+}
+
+// 3. CEK TRIGGER UPLOAD DARI FORM
+if (isset($_POST['upload_kk'])) {
+    handleUpload('kk', 'file_kk', $id_user, $conn);
+}
+if (isset($_POST['upload_ijazah'])) {
+    handleUpload('ijazah', 'file_ijazah', $id_user, $conn);
+}
+if (isset($_POST['upload_rapor'])) {
+    handleUpload('rapor', 'file_rapor', $id_user, $conn);
+}
+
+// 4. AMBIL DATA TERBARU UNTUK DITAMPILKAN
+$query = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE user_id = '$id_user'");
+$data = mysqli_fetch_assoc($query);
+
+// Kalau data kosong (user baru banget login dan belum isi biodata sama sekali), inisialisasi array kosong biar gak error
+if (!$data) {
+    $data = ['file_kk' => '', 'file_ijazah' => '', 'file_rapor' => ''];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -50,7 +137,7 @@
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-hogwarts-gold p-0.5 shadow-[0_0_10px_rgba(212,175,55,0.5)]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Harry_Potter_wordmark.svg/1200px-Harry_Potter_wordmark.svg.png" 
-                         class="w-full h-full object-contain filter invert opacity-80">
+                          class="w-full h-full object-contain filter invert opacity-80">
                 </div>
                 <div>
                     <h1 class="font-hogwarts font-bold text-lg text-white tracking-wider glow-text">ARSIP DOKUMEN</h1>
@@ -120,7 +207,7 @@
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="kk" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg">
+                            <input type="file" name="kk" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_kk" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Otomatis upload saat dipilih</p>
@@ -153,7 +240,7 @@
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-red-700 hover:bg-red-800 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="ijazah" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg">
+                            <input type="file" name="ijazah" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_ijazah" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Otomatis upload saat dipilih</p>
@@ -186,7 +273,7 @@
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="rapor" class="hidden" onchange="this.form.submit()" accept=".pdf">
+                            <input type="file" name="rapor" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_rapor" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Format PDF (Digabung)</p>
