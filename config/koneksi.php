@@ -1,6 +1,6 @@
 <?php
 // config/koneksi.php
-
+$version = "1.1.0-dev";
 $hostname = "localhost";
 $username = "root";
 $password = "";      
