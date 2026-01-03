@@ -14,7 +14,7 @@
 
 <nav class="absolute top-0 w-full z-20 py-6">
     <div class="container mx-auto px-6">
-        <a href="index.php" class="flex items-center gap-3 w-fit group">
+        <a href="../index.php" class="flex items-center gap-3 w-fit group">
             <div class="w-10 h-10 rounded-full bg-hogwarts-gold/10 border border-hogwarts-gold/50 flex items-center justify-center group-hover:bg-hogwarts-gold transition duration-300">
                 <i class="fas fa-arrow-left text-hogwarts-gold group-hover:text-hogwarts-dark"></i>
             </div>

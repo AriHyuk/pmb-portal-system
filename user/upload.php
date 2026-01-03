@@ -121,7 +121,7 @@ if (!$data) {
                 </div>
                 <div>
                     <h1 class="font-hogwarts font-bold text-lg text-white tracking-wider glow-text">ARSIP DOKUMEN</h1>
-                    <p class="text-[10px] text-hogwarts-gold uppercase tracking-widest">Kementerian Sihir Akademik</p>
+                    <p class="text-[10px] text-hogwarts-gold uppercase tracking-widest">Universitas Hogwarts</p>
                 </div>
             </div>
             <a href="dashboard.php" class="px-4 py-2 text-xs font-bold text-hogwarts-gold border border-hogwarts-gold/50 rounded hover:bg-hogwarts-gold hover:text-hogwarts-dark transition duration-300 flex items-center gap-2">
@@ -139,7 +139,7 @@ if (!$data) {
             
             <div class="z-10">
                 <h2 class="text-2xl font-hogwarts font-bold text-white mb-1">Status Kelengkapan Berkas</h2>
-                <p class="text-sm text-gray-400">Pastikan seluruh dokumen sihir Anda terunggah dengan format yang benar (PDF/JPG).</p>
+                <p class="text-sm text-gray-400">Pastikan seluruh dokumen Anda terunggah dengan format yang benar (PDF/JPG).</p>
             </div>
             
             <?php 
@@ -169,7 +169,7 @@ if (!$data) {
                         <i class='bx bxs-id-card text-3xl text-blue-400'></i>
                     </div>
                     <h3 class="font-hogwarts font-bold text-white text-lg mb-1">Kartu Keluarga</h3>
-                    <p class="text-xs text-gray-500 mb-4">Bukti Identitas Muggle/Penyihir</p>
+                    <p class="text-xs text-gray-500 mb-4">Bukti Identitas</p>
                     
                     <?php if(!empty($data['file_kk'])): ?>
                         <div class="bg-green-900/30 text-green-400 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 mb-4 border border-green-500/30">
@@ -202,7 +202,7 @@ if (!$data) {
                         <i class='bx bxs-graduation text-3xl text-red-400'></i>
                     </div>
                     <h3 class="font-hogwarts font-bold text-white text-lg mb-1">Ijazah / SKL</h3>
-                    <p class="text-xs text-gray-500 mb-4">Bukti Kelulusan Sekolah Sihir</p>
+                    <p class="text-xs text-gray-500 mb-4">Bukti Kelulusan Sekolah SMA/SMK sederajat</p>
                     
                     <?php if(!empty($data['file_ijazah'])): ?>
                         <div class="bg-green-900/30 text-green-400 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 mb-4 border border-green-500/30">
@@ -265,9 +265,9 @@ if (!$data) {
         <div class="mt-12 text-center">
             <a href="dashboard.php" class="inline-flex items-center gap-3 px-8 py-4 bg-hogwarts-gold text-hogwarts-dark font-bold font-hogwarts rounded-lg shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:bg-yellow-400 hover:scale-105 transition transform duration-300">
                 <i class='bx bxs-save text-xl'></i>
-                SIMPAN & KEMBALI KE ASRAMA
+                SIMPAN & KEMBALI KE DASHBOARD
             </a>
-            <p class="mt-4 text-xs text-gray-500">Pastikan burung hantu telah mengirim semua berkas sebelum kembali.</p>
+            <p class="mt-4 text-xs text-gray-500">Pastikan semua berkas telah terunggah sebelum kembali.</p>
         </div>
 
     </div>
