@@ -15,7 +15,7 @@ if (isset($_POST['register'])) {
     if ($password != $confirm_pass) {
         echo "<script>
                 alert('Password dan Konfirmasi Password tidak sama!');
-                window.location.href='auth/register.php';
+                window.location.href='register.php';
               </script>";
         exit; // Stop proses
     }
@@ -50,6 +50,6 @@ if (isset($_POST['register'])) {
 
 } else {
     // Kalau user coba buka file ini tanpa lewat form
-    header("Location: auth/register.php");
+    header("Location: register.php");
 }
 ?>
