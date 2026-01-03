@@ -119,7 +119,7 @@ if (!$data) {
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-hogwarts-gold p-0.5 shadow-[0_0_10px_rgba(212,175,55,0.5)]">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Harry_Potter_wordmark.svg/1200px-Harry_Potter_wordmark.svg.png" 
-                         class="w-full h-full object-contain filter invert opacity-80">
+                          class="w-full h-full object-contain filter invert opacity-80">
                 </div>
                 <div>
                     <h1 class="font-hogwarts font-bold text-lg text-white tracking-wider glow-text">ARSIP DOKUMEN</h1>
@@ -189,7 +189,7 @@ if (!$data) {
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="kk" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg">
+                            <input type="file" name="kk" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_kk" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Otomatis upload saat dipilih</p>
@@ -222,7 +222,7 @@ if (!$data) {
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-red-700 hover:bg-red-800 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="ijazah" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg">
+                            <input type="file" name="ijazah" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_ijazah" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Otomatis upload saat dipilih</p>
@@ -255,7 +255,7 @@ if (!$data) {
                     <form method="POST" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-700">
                         <label class="block cursor-pointer bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-bold py-2 px-4 rounded transition text-center shadow-lg">
                             <span>PILIH FILE</span>
-                            <input type="file" name="rapor" class="hidden" onchange="this.form.submit()" accept=".pdf">
+                            <input type="file" name="rapor" class="hidden" onchange="this.form.submit()" accept=".pdf,.jpg,.jpeg,.png">
                         </label>
                         <input type="hidden" name="upload_rapor" value="1">
                         <p class="text-[10px] text-gray-500 mt-2">*Format PDF (Digabung)</p>
