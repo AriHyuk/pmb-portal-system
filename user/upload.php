@@ -1,7 +1,5 @@
 <?php
 session_start();
-// Sesuaikan path koneksi ini dengan struktur folder kamu yang baru
-// Kalau file ini ada di dalam folder 'user/', berarti mundur satu kali (../)
 include '../config/koneksi.php'; 
 
 // 1. Cek Login & Role
