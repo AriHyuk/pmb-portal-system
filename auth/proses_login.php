@@ -3,7 +3,7 @@
 session_start();
 
 // 2. Panggil Koneksi Database
-include 'config/koneksi.php';
+include '../config/koneksi.php';
 
 // 3. Cek apakah tombol login ditekan
 if (isset($_POST['login'])) {
@@ -35,10 +35,10 @@ if (isset($_POST['login'])) {
         // 6. Cek Role (Admin atau Maba?)
         if ($data['role'] == "admin") {
             // Jika Admin, lempar ke folder admin
-            header("Location: admin/dashboard.php");
+            header("Location: ../admin/dashboard.php");
         } else {
             // Jika Maba, lempar ke dashboard maba
-            header("Location: dashboard.php");
+            header("Location: ../user/dashboard.php");
         }
 
     } else {
@@ -48,6 +48,6 @@ if (isset($_POST['login'])) {
 
 } else {
     // Kalau coba akses file ini langsung tanpa lewat form
-    header("Location: login.php");
+    header("Location:login.php");
 }
 ?>

@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'config/koneksi.php';
+include '../config/koneksi.php';
 
 if (!isset($_SESSION['status_login'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit;
 }
 
@@ -16,7 +16,7 @@ $query = mysqli_query($conn, "SELECT users.nama_lengkap, users.email, pendaftara
 
 $data = mysqli_fetch_assoc($query);
 
-include 'layouts/header.php';
+include '../layouts/header.php';
 ?>
 
 <div class="min-h-screen bg-gray-100 py-10 px-4">
@@ -128,7 +128,7 @@ include 'layouts/header.php';
                         
                         <?php if(!empty($data['pass_foto'])): ?>
                             <div class="flex items-center gap-3 mb-3 bg-green-100 p-2 rounded border border-green-200">
-                                <img src="uploads/<?= $data['pass_foto'] ?>" class="h-10 w-8 object-cover rounded">
+                                <img src="../uploads/<?= $data['pass_foto'] ?>" class="h-10 w-8 object-cover rounded">
                                 <span class="text-xs text-green-700 font-semibold">Foto tersimpan</span>
                             </div>
                         <?php endif; ?>
@@ -145,7 +145,7 @@ include 'layouts/header.php';
                             <div class="flex items-center gap-3 mb-3 bg-green-100 p-2 rounded border border-green-200">
                                 <i class='bx bxs-file-image text-green-600 text-2xl'></i>
                                 <span class="text-xs text-green-700 font-semibold">Bukti tersimpan</span>
-                                <a href="uploads/<?= $data['file_bukti'] ?>" target="_blank" class="text-xs text-blue-600 underline ml-auto">Lihat</a>
+                                <a href="../uploads/<?= $data['file_bukti'] ?>" target="_blank" class="text-xs text-blue-600 underline ml-auto">Lihat</a>
                             </div>
                         <?php endif; ?>
 
@@ -169,4 +169,4 @@ include 'layouts/header.php';
     </div>
 </div>
 
-<?php include 'layouts/footer.php'; ?>
+<?php include '../layouts/footer.php'; ?>

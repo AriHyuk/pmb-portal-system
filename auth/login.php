@@ -1,4 +1,4 @@
-<?php include 'layouts/header.php'; ?>
+<?php include '../layouts/header.php'; ?>
 
 <style>
     /* Input Autofill fix for dark mode */

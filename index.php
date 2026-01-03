@@ -39,10 +39,10 @@
 
                 <!-- Desktop Auth Buttons -->
                 <div class="hidden md:flex gap-3 items-center auth-buttons">
-                    <a href="login.php" class="px-4 py-2 text-sm font-semibold text-white border border-hogwarts-gold/50 rounded-lg hover:bg-hogwarts-gold hover:text-hogwarts-dark transition duration-300 hogwarts-font flex items-center h-10">
+                    <a href="auth/login.php" class="px-4 py-2 text-sm font-semibold text-white border border-hogwarts-gold/50 rounded-lg hover:bg-hogwarts-gold hover:text-hogwarts-dark transition duration-300 hogwarts-font flex items-center h-10">
                         Masuk
                     </a>
-                    <a href="register.php" class="px-4 py-2 text-sm font-bold text-hogwarts-dark bg-hogwarts-gold rounded-lg shadow-lg hover:bg-yellow-300 transition transform hover:-translate-y-0.5 hogwarts-font flex items-center h-10">
+                    <a href="auth/register.php" class="px-4 py-2 text-sm font-bold text-hogwarts-dark bg-hogwarts-gold rounded-lg shadow-lg hover:bg-yellow-300 transition transform hover:-translate-y-0.5 hogwarts-font flex items-center h-10">
                         Daftar Sekarang
                     </a>
                 </div>
@@ -78,11 +78,11 @@
             
             <!-- Auth Buttons in Mobile Menu -->
             <div class="mobile-auth-buttons">
-                <a href="login.php">
+                <a href="auth/login.php">
                     <i class="fas fa-sign-in-alt mr-2"></i>
                     Masuk
                 </a>
-                <a href="register.php">
+                <a href="auth/register.php">
                     <i class="fas fa-user-plus mr-2"></i>
                     Daftar Sekarang
                 </a>
@@ -133,7 +133,7 @@
                 pembelajaran yang lengkap dan modern.
             </p>
             <div class="hero-buttons flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                <a href="register.php" class="px-6 md:px-8 py-3 md:py-4 bg-hogwarts-gold text-hogwarts-dark font-bold rounded-lg shadow-lg hover:shadow-hogwarts-gold/50 transition transform hover:-translate-y-1 hogwarts-font text-base md:text-lg group">
+                <a href="auth/register.php" class="px-6 md:px-8 py-3 md:py-4 bg-hogwarts-gold text-hogwarts-dark font-bold rounded-lg shadow-lg hover:shadow-hogwarts-gold/50 transition transform hover:-translate-y-1 hogwarts-font text-base md:text-lg group">
                     Daftar Sekarang
                 </a>
                 <a href="#fakultas" class="px-6 md:px-8 py-3 md:py-4 bg-transparent border border-hogwarts-gold/50 text-white font-semibold rounded-lg hover:bg-hogwarts-gold/10 transition transform hover:-translate-y-1 hogwarts-font text-center">
