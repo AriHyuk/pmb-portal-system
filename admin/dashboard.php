@@ -76,7 +76,7 @@ $q_terbaru = mysqli_query($conn, "
             </a>
 
             <div class="mt-8 border-t border-gray-700 pt-4">
-                <a href="../logout.php" onclick="return confirm('Logout Admin?')" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-900/20 rounded-lg transition">
+                <a href="../auth/logout.php" onclick="return confirm('Logout Admin?')" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-900/20 rounded-lg transition">
                     <i class='bx bxs-log-out text-xl'></i> <span>Keluar</span>
                 </a>
             </div>

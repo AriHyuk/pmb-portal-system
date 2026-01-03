@@ -1,4 +1,4 @@
-<?php include 'layouts/header.php'; ?>
+<?php include '../layouts/header.php'; ?>
 
 <nav class="absolute top-0 w-full z-20 py-6">
     <div class="container mx-auto px-6">
@@ -64,7 +64,7 @@
                 <p class="text-gray-400 text-sm mt-3">Isi data diri untuk memulai seleksi masuk.</p>
             </div>
 
-            <form action="proses_register.php" method="POST" class="space-y-5">
+            <form action="auth/proses_register.php" method="POST" class="space-y-5">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="group">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config/koneksi.php';
+include '../config/koneksi.php';
 
 // 1. Cek Security
 if (!isset($_SESSION['status_login']) || $_SESSION['status_login'] != true) {
@@ -115,7 +115,7 @@ $status_seleksi = isset($data['status_pendaftaran']) ? ucfirst($data['status_pen
                 <i class='bx bxs-cloud-upload text-xl'></i> <span class="font-medium">Upload Berkas</span>
             </a>
             <p class="text-xs text-gray-400 uppercase font-semibold mt-6 mb-2">Lainnya</p>
-            <a href="logout.php" onclick="return confirm('Yakin ingin keluar?')" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-lg transition mt-auto">
+            <a href="../auth/logout.php" onclick="return confirm('Yakin ingin keluar?')" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-lg transition mt-auto">
                 <i class='bx bxs-log-out text-xl'></i> <span class="font-medium">Keluar</span>
             </a>
         </nav>

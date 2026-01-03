@@ -1,3 +1,72 @@
+<?php
+session_start();
+// Sesuaikan path koneksi ini dengan struktur folder kamu yang baru
+// Kalau file ini ada di dalam folder 'user/', berarti mundur satu kali (../)
+include '../config/koneksi.php'; 
+
+// 1. Cek Login & Role
+if (!isset($_SESSION['status_login'])) {
+    header("Location: ../auth/login.php"); // Sesuaikan path login
+    exit;
+}
+
+$id_user = $_SESSION['id_user'];
+
+// 2. LOGIC UPLOAD (OTAKNYA DI SINI)
+function handleUpload($input_name, $column_name, $id_user, $conn) {
+    if (isset($_FILES[$input_name]) && $_FILES[$input_name]['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'pdf'];
+        $filename = $_FILES[$input_name]['name'];
+        $filetmp = $_FILES[$input_name]['tmp_name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        // Validasi
+        if (!in_array($ext, $allowed)) {
+            echo "<script>alert('Format salah! Harus JPG/PNG/PDF');</script>";
+            return;
+        }
+
+        // Rename File: IDUSER_JENIS_WAKTU.ext
+        $new_name = $id_user . '_' . $column_name . '_' . time() . '.' . $ext;
+        
+        // Simpan ke folder uploads (Mundur satu folder dari 'user/' ke root 'uploads/')
+        $destination = '../uploads/' . $new_name; 
+
+        if (move_uploaded_file($filetmp, $destination)) {
+            // Cek apakah data pendaftaran sudah ada?
+            $cek = mysqli_query($conn, "SELECT id FROM pendaftaran WHERE user_id = '$id_user'");
+            
+            if (mysqli_num_rows($cek) > 0) {
+                // Update
+                $q = "UPDATE pendaftaran SET $column_name = '$new_name' WHERE user_id = '$id_user'";
+            } else {
+                // Insert Baru (Jaga-jaga kalo belum isi biodata)
+                $q = "INSERT INTO pendaftaran (user_id, $column_name) VALUES ('$id_user', '$new_name')";
+            }
+            
+            mysqli_query($conn, $q);
+            echo "<script>alert('Berhasil diupload!'); window.location=window.location.href;</script>";
+        } else {
+            echo "<script>alert('Gagal upload ke server folder!');</script>";
+        }
+    }
+}
+
+// 3. Cek Trigger Upload
+if (isset($_POST['upload_kk'])) handleUpload('kk', 'file_kk', $id_user, $conn);
+if (isset($_POST['upload_ijazah'])) handleUpload('ijazah', 'file_ijazah', $id_user, $conn);
+if (isset($_POST['upload_rapor'])) handleUpload('rapor', 'file_rapor', $id_user, $conn);
+
+// 4. AMBIL DATA (Supaya variabel $data dikenali HTML di bawah)
+$query = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE user_id = '$id_user'");
+$data = mysqli_fetch_assoc($query);
+
+// Cegah error jika data kosong (pengguna baru)
+if (!$data) {
+    $data = ['file_kk' => '', 'file_ijazah' => '', 'file_rapor' => ''];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -108,7 +177,7 @@
                         <div class="bg-green-900/30 text-green-400 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 mb-4 border border-green-500/30">
                             <i class='bx bxs-check-circle'></i> Terunggah
                         </div>
-                        <a href="uploads/<?= $data['file_kk'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-blue-400 border border-blue-500/30 rounded hover:bg-blue-900/50 transition">
+                        <a href="../uploads/<?= $data['file_kk'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-blue-400 border border-blue-500/30 rounded hover:bg-blue-900/50 transition">
                             <i class='bx bx-search'></i> LIHAT BERKAS
                         </a>
                     <?php else: ?>
@@ -141,7 +210,7 @@
                         <div class="bg-green-900/30 text-green-400 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 mb-4 border border-green-500/30">
                             <i class='bx bxs-check-circle'></i> Terunggah
                         </div>
-                        <a href="uploads/<?= $data['file_ijazah'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-red-400 border border-red-500/30 rounded hover:bg-red-900/50 transition">
+                        <a href="../uploads/<?= $data['file_ijazah'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-red-400 border border-red-500/30 rounded hover:bg-red-900/50 transition">
                             <i class='bx bx-search'></i> LIHAT BERKAS
                         </a>
                     <?php else: ?>
@@ -174,7 +243,7 @@
                         <div class="bg-green-900/30 text-green-400 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 mb-4 border border-green-500/30">
                             <i class='bx bxs-check-circle'></i> Terunggah
                         </div>
-                        <a href="uploads/<?= $data['file_rapor'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-yellow-400 border border-yellow-500/30 rounded hover:bg-yellow-900/50 transition">
+                        <a href="../uploads/<?= $data['file_rapor'] ?>" target="_blank" class="block w-full py-2 text-xs font-bold text-yellow-400 border border-yellow-500/30 rounded hover:bg-yellow-900/50 transition">
                             <i class='bx bx-search'></i> LIHAT BERKAS
                         </a>
                     <?php else: ?>

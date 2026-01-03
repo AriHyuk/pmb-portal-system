@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'config/koneksi.php';
+include '../config/koneksi.php';
 
 if (!isset($_SESSION['status_login'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit;
 }
 
@@ -24,7 +24,7 @@ if (isset($_POST['simpan'])) {
     $ada = mysqli_num_rows($cek) > 0;
 
     // --- LOGIKA UPLOAD FOTO & BUKTI ---
-    $folder = "uploads/";
+    $folder = "../uploads/";
     
     // Siapkan variabel update/insert string
     // Kita set default file query kosong, nanti diisi kalau user upload file baru
@@ -81,10 +81,10 @@ if (isset($_POST['simpan'])) {
 
 <?php
 session_start();
-include 'config/koneksi.php';
+include '../config/koneksi.php';
 
 // Cek Login (Sama seperti sebelumnya)
-if (!isset($_SESSION['status_login'])) { header("Location: login.php"); exit; }
+if (!isset($_SESSION['status_login'])) { header("Location: ../auth/login.php"); exit; }
 $id_user = $_SESSION['id_user'];
 
 // Ambil Data
@@ -108,9 +108,9 @@ function prosesUpload($inputName, $columnName, $conn, $id_user) {
         }
 
         $newName = strtoupper($inputName) . "_" . uniqid() . "." . $ext;
-        if(move_uploaded_file($file_tmp, 'uploads/' . $newName)) {
-            if(!empty($data[$columnName]) && file_exists('uploads/'.$data[$columnName])){
-                unlink('uploads/'.$data[$columnName]);
+        if(move_uploaded_file($file_tmp, '../uploads/' . $newName)) {
+            if(!empty($data[$columnName]) && file_exists('../uploads/'.$data[$columnName])){
+                unlink('../uploads/'.$data[$columnName]);
             }
             mysqli_query($conn, "UPDATE pendaftaran SET $columnName = '$newName' WHERE user_id = '$id_user'");
             return true;
