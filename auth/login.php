@@ -61,7 +61,7 @@
 
         <div class="w-full md:w-1/2 p-8 md:p-12 relative">
             <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-white hogwarts-font tracking-wide">LOGIN SISWA</h2>
+                <h2 class="text-3xl font-bold text-white hogwarts-font tracking-wide">LOGIN CALON MAHASISWA</h2>
                 <div class="h-1 w-24 bg-gradient-to-r from-transparent via-hogwarts-gold to-transparent mx-auto mt-3"></div>
             </div>
 
@@ -70,7 +70,7 @@
                     <i class="fas fa-exclamation-circle mt-1 text-red-400"></i>
                     <div>
                         <p class="font-bold text-sm">Akses Ditolak</p>
-                        <p class="text-xs opacity-80">Email atau kata sandi tidak ditemukan dalam arsip sihir.</p>
+                        <p class="text-xs opacity-80">Email atau kata sandi tidak ditemukan dalam database.</p>
                     </div>
                 </div>
             <?php endif; ?>
@@ -103,20 +103,20 @@
                 <div class="flex items-center justify-between text-sm mt-2">
                     <label class="flex items-center cursor-pointer group">
                         <input type="checkbox" class="form-checkbox text-hogwarts-gold rounded border-gray-600 bg-slate-800 focus:ring-hogwarts-gold focus:ring-offset-0">
-                        <span class="ml-2 text-gray-400 group-hover:text-white transition">Ingat Mantra Saya</span>
+                        <span class="ml-2 text-gray-400 group-hover:text-white transition">Ingat Kata Sandi</span>
                     </label>
                     <a href="#" class="text-hogwarts-gold/80 hover:text-hogwarts-gold hover:underline transition text-xs uppercase font-bold tracking-wide">Lupa Sandi?</a>
                 </div>
 
                 <button type="submit" name="login" 
                         class="w-full bg-hogwarts-gold text-hogwarts-dark font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:bg-yellow-400 hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] transition duration-300 transform hover:-translate-y-1 hogwarts-font tracking-wider text-lg mt-4 flex items-center justify-center gap-2 group">
-                    <span>ALOHOMORA</span>
+                    <span>Login</span>
                     <i class="fas fa-key text-hogwarts-dark/70 group-hover:rotate-45 transition duration-300"></i>
                 </button>
             </form>
 
             <div class="mt-8 text-center">
-                <p class="text-gray-400 text-sm">Belum terdaftar sebagai siswa?</p>
+                <p class="text-gray-400 text-sm">Belum terdaftar sebagai calon mahasiswa?</p>
                 <a href="register.php" class="inline-block mt-2 text-hogwarts-gold font-bold hover:text-white transition border-b border-hogwarts-gold/30 hover:border-white pb-0.5">
                     Ajukan Pendaftaran Sekarang
                 </a>
@@ -126,8 +126,8 @@
     </div>
     
     <div class="absolute bottom-4 text-center w-full text-gray-600 text-xs">
-        &copy; 2025 Universitas Hogwarts. Magic Starts Here.
+        &copy; 2025 Universitas Hogwarts. Hak Cipta Dilindungi.
     </div>
 </div>
 
-<?php include 'layouts/footer.php'; ?>
+<?php include '../layouts/footer.php'; ?>
