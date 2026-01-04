@@ -44,15 +44,15 @@
             <div class="mt-8 text-left space-y-3">
                 <div class="flex items-center gap-3 text-sm text-gray-300">
                     <i class="fas fa-check-circle text-hogwarts-gold"></i>
-                    <span>Akses Asrama Eksklusif</span>
+                    <span>Akses Fasilitas Eksklusif</span>
                 </div>
                 <div class="flex items-center gap-3 text-sm text-gray-300">
                     <i class="fas fa-check-circle text-hogwarts-gold"></i>
-                    <span>Pendidikan Sihir Terbaik</span>
+                    <span>Pendidikan dan Tenaga Pendidik Terbaik</span>
                 </div>
                 <div class="flex items-center gap-3 text-sm text-gray-300">
                     <i class="fas fa-check-circle text-hogwarts-gold"></i>
-                    <span>Fasilitas Quidditch Lengkap</span>
+                    <span>Fasilitas Belajar Lengkap</span>
                 </div>
             </div>
         </div>
@@ -87,13 +87,13 @@
                     <div class="relative">
                         <input type="password" name="password" id="password" required 
                             class="w-full px-4 py-3 bg-slate-800/50 border border-gray-600 text-white rounded-lg focus:border-hogwarts-gold focus:ring-1 focus:ring-hogwarts-gold focus:bg-slate-800 transition outline-none placeholder-gray-500"
-                            placeholder="Minimal 8 karakter magis">
+                            placeholder="Minimal 8 karakter">
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <i class="fas fa-lock text-gray-500 text-sm"></i>
                         </div>
                     </div>
                     <p class="text-[10px] text-gray-500 mt-1 ml-1 flex items-center gap-1">
-                        <i class="fas fa-info-circle"></i> Gunakan kombinasi huruf, angka, dan mantra.
+                        <i class="fas fa-info-circle"></i> Gunakan kombinasi huruf, angka, dan simbol untuk keamanan maksimal.
                     </p>
                 </div>
 
@@ -102,7 +102,7 @@
                     <div class="relative">
                         <input type="password" name="konfirmasi_password" id="konfirmasi_password" required 
                             class="w-full px-4 py-3 bg-slate-800/50 border border-gray-600 text-white rounded-lg focus:border-hogwarts-gold focus:ring-1 focus:ring-hogwarts-gold focus:bg-slate-800 transition outline-none placeholder-gray-500"
-                            placeholder="Konfirmasi mantra rahasia">
+                            placeholder="Konfirmasi password Anda">
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <i class="fas fa-check-double text-gray-500 text-sm"></i>
                         </div>
@@ -111,14 +111,14 @@
 
                 <button type="submit" name="register"
                     class="w-full bg-hogwarts-gold text-hogwarts-dark font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(212,175,55,0.3)] hover:bg-yellow-400 hover:shadow-[0_0_25px_rgba(212,175,55,0.6)] transition duration-300 transform hover:-translate-y-1 hogwarts-font tracking-wider text-lg mt-6 flex items-center justify-center gap-2 group">
-                    <span>KIRIM BURUNG HANTU</span>
+                    <span>Submit</span>
                     <i class="fas fa-feather-alt text-hogwarts-dark/70 group-hover:rotate-12 transition duration-300"></i>
                 </button>
             </form>
 
             <div class="mt-8 text-center border-t border-gray-700 pt-6">
                 <p class="text-sm text-gray-400">
-                    Sudah memiliki akses masuk? 
+                    Sudah memiliki akun? 
                     <a href="login.php" class="text-hogwarts-gold font-bold hover:text-white transition hover:underline ml-1">
                         Masuk disini
                     </a>
@@ -129,8 +129,8 @@
     </div>
     
     <div class="absolute bottom-4 text-center w-full text-gray-600 text-xs hidden md:block">
-        &copy; 2025 Universitas Hogwarts. Pendaftaran dibuka untuk semua penyihir muda.
+        &copy; 2025 Universitas Hogwarts. Hak Cipta Dilindungi.
     </div>
 </div>
 
-<?php include 'layouts/footer.php'; ?>
+<?php include '../layouts/footer.php'; ?>
